@@ -22,6 +22,13 @@ I personally prefer using the Pi's hardware mac address to assign a hostname and
 When you're all set up and configured, run the Ansible playbook:
 
 [Ansible in a conatiner](https://ruleoftech.com/2017/dockerizing-all-the-things-running-ansible-inside-docker-container)
+```
+docker run --rm -it \
+    -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
+    -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
+    -v $(pwd):/ansible/ \
+    walokra/ansible-playbook site.yml -i ./ansible/hosts
+```
 
 
 This will:
