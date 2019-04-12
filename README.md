@@ -20,9 +20,9 @@ I personally prefer using the Pi's hardware mac address to assign a hostname and
 
 # Provision the nodes
 When you're all set up and configured, run the Ansible playbook:
-```bash
-$ make
-```
+
+[Ansible in a conatiner](https://ruleoftech.com/2017/dockerizing-all-the-things-running-ansible-inside-docker-container)
+
 
 This will:
 - Install the k3s binary on the 'server' Pi (the leading node)
