@@ -22,12 +22,21 @@ I personally prefer using the Pi's hardware mac address to assign a hostname and
 When you're all set up and configured, run the Ansible playbook:
 
 [Ansible in a conatiner](https://ruleoftech.com/2017/dockerizing-all-the-things-running-ansible-inside-docker-container)
+
+### Build a player
+
+```
+docker build -t lcwyo/ansible-player .
+```
+
+### Run the player
+
 ```
 docker run --rm -it \
     -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
     -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
     -v $(pwd):/ansible/ \
-    walokra/ansible-playbook site.yml -i ./ansible/hosts
+    lcwyo/ansiblie-player /ansible/site.yml -i /ansible/hosts
 ```
 
 
@@ -41,7 +50,7 @@ This will:
 # See if it worked
 Log into your server node and run:
 ```bash
-$ sudo k3s kubectl get node -o wide
+$ sudo k3s kubectl get nodes -o wide
 ```
 You should see all of your nodes broadcasting a _Ready_ status.
 
