@@ -1,7 +1,7 @@
 ---
 - name: Install k3s server service
   get_url:
-    url: https://raw.githubusercontent.com/lcwyo/ansible-k3s-rpi/master/ansible/roles/k3s-server/k3s.service
+    url: https://raw.githubusercontent.com/lcwyo/ansible-k3s-rpi/master/ansible/roles/k3s-server/tasks/k3s.service
     dest: /etc/systemd/system/k3s-server.service
     mode: a+x
     force: yes
