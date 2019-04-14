@@ -1,6 +1,7 @@
 ---
 - name: Wait until node token is generated
   wait_for:
+    timeout: 500
     path: /var/lib/rancher/k3s/server/node-token
   run_once: true
 
@@ -11,7 +12,7 @@
   run_once: true
 
 - name: Clean up node token contents
-  set_fact: 
+  set_fact:
     k3s_cluster_token: "{{ k3s_cluster_token['content'] | b64decode | replace('\n', '')}}"
   run_once: yes
 

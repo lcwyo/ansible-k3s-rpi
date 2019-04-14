@@ -18,7 +18,7 @@
 - name: Point hostname to localhost (k3s requirement)
   lineinfile:
     dest: /etc/hosts
-    line: "127.0.0.1 {{inventory_hostname}}"
+    line: "127.0.0.1 {{ inventory_hostname }}"
 
 #- name: Reboot to finish setting things up
 #  reboot:

@@ -15,3 +15,14 @@
 
 - name: Remove dependencies that are no longer required
   shell: apt autoremove -y
+
+- name: Password based logins are disabled - only public key based logins are allowed.
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^#?AuthenticationMethods' , line: 'AuthenticationMethods publickey' }
+    - { regexp: '^#?PasswordAuthentication' , line: 'PasswordAuthentication no' }
+    - { regexp: '^#?ChallengeResponseAuthentication',  line: 'ChallengeResponseAuthentication no' }
+    - { regexp: '^#?PubkeyAuthentication',  line: 'PubkeyAuthentication yes' }

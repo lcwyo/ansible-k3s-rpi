@@ -13,3 +13,21 @@ ssh_user: pi
 ssh_identity_key: ~/.ssh/id_rsa.pub
 
 k3s_ver: v0.3.0
+
+#
+
+REBOOT: True #Should i reboot at the end of this playbook?
+UPDATE: True
+MEMSPLIT: "16"
+BOOTBEHAVIOUR: "B1" #B1 cli, B2 cli autologin, B3 desktop, B4 desktop autologin
+LOCALE: "en_US.UTF-8"
+TIMEZONE: "Europe/Berlin"
+XKBLAYOUT: "gb" #default "gb"
+AUDIO_OUT: "0" #0 Auto, 1 Force 3.5mm, 2 Force hdmi
+GLDRIVER: False #G1 Full KMS, G2 Fake KMS, G3 Legacy
+#USER: "pi"
+#NEWPASSWORD: "yourNEWpassword"
+
+# for some reason these had to be hardcoded for it to work ...
+#k3s_cluster_token: "K10979bb2b5a347fbce951856c4d665e9b4a0bcf10768eba843844265a6df4a6e20::node:7af67bea4ea6e7b5967a8b0a47f8c091"
+#k3s_server_address: "node-110"

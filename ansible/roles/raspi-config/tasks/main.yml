@@ -1,0 +1,103 @@
+---
+#Update
+- name: Update raspi-config itself
+  become: true
+  apt: name=raspi-config update_cache=yes state=present cache_valid_time=3600
+  when: UPDATE == True
+
+#Get some basic info
+- name: Get Raspberry Pi type
+  shell: "raspi-config nonint get_pi_type"
+  register: pi_type
+  changed_when: False
+
+- name: Show pi version
+  debug:
+    msg: "Pi version: {{ pi_type.stdout }}"
+
+#1 Change user password
+
+# ansible-vault and user module ??
+#- name: Change user password
+#  shell: "(echo '{{ NEWPASSWORD }}' ; echo '{{ NEWPASSWORD }}') | passwd {{ USER }}"
+
+#B1 cli, B2 cli autologin, B3 desktop, B4 desktop autologin
+- name: Set Boot behaviour
+  shell: "raspi-config nonint do_boot_behaviour {{ BOOTBEHAVIOUR }}"
+
+#4 Localisation Options
+
+#I1 Change Locale
+- name: Change locale
+  shell: "raspi-config nonint do_change_locale {{ LOCALE }}"
+
+#I2 Change Timezone
+- name: Change timezone
+  shell: "raspi-config nonint do_change_timezone {{ TIMEZONE }}"
+
+#5 Interfacing Options
+
+#P1 CAMERA
+- name: Disable Camera
+  shell: "raspi-config nonint do_camera 1"
+
+#P3 VNC
+- name: Disable VNC
+  shell: "raspi-config nonint do_vnc 1"
+
+#P4 SPI
+- name: Disable SPI
+  shell: "raspi-config nonint do_spi 1"
+
+#P5 I2C
+- name: Disable I2C
+  shell: "raspi-config nonint do_i2c 1"
+
+#P6 Serial
+- name: Disable serial
+  shell: "raspi-config nonint do_serial 1"
+
+#P7 1-Wire
+- name: Disable OneWire
+  shell: "raspi-config nonint do_onewire 1"
+
+#P8 Remote GPIO
+- name: Disable Remote GPIO
+  shell: "raspi-config nonint do_rgpio 1"
+
+#7 Advanced Options
+
+#A1 Expand Filesystem
+- name: Expand Filesystem
+  shell: "raspi-config nonint do_expand_rootfs"
+
+- name: Set GPU memory split
+  shell: "raspi-config nonint do_memory_split {{ MEMSPLIT }}"
+
+#A4 Audio
+### 0 Auto, 1 Force 3.5mm, 2 Force hdmi
+- name: Set audio out
+  shell: "raspi-config nonint do_audio {{ AUDIO_OUT }}"
+
+
+#A6 Pixel Doubling
+-
+- name: Disable pixel doubling
+  shell: "raspi-config nonint do_onewire 1"
+
+#REBOOT
+#- name: Reboot
+#  become: True
+#  shell: "sleep 1 && shutdown -r now +1"
+#  async: 1
+#  poll: 0
+#  notify:
+#    - wait-for-reboot
+#  when: REBOOT == True
+
+#HANDLERS
+#handlers:
+#- name: wait-for-reboot
+#  wait_for_connection:
+#    delay: "5"
+#    timeout: "300"

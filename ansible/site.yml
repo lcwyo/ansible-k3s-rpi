@@ -6,6 +6,7 @@
   become_user: root
 
   roles:
+    - raspi-config
     - common
     - { role: k3s-common }
 
@@ -19,7 +20,7 @@
     - { role: k3s-server }
 
 - name: Get k3s server config for all nodes
-  hosts: all
+  hosts: k3s-server
   remote_user: pi
   become: yes
   become_user: root

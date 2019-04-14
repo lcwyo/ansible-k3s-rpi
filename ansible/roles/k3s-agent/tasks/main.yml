@@ -6,11 +6,21 @@
     mode: a+x
     force: yes
 
+# not sure why I can't get the values from the previous task
+- name: Set server address
+  set_fact:
+    k3s_server_address: "https://{{ k3s_server_address }}:6443"
+  run_once: yes
+
+- name: Print server address
+  debug:
+    msg: "{{ k3s_cluster_token }}"
+
 - name: Replace server command in k3s agent service with agent command
   replace:
     dest: /etc/systemd/system/k3s-agent.service
     regexp: '^ExecStart=/usr/local/bin/k3s server$'
-    replace: 'ExecStart=/usr/local/bin/k3s agent -s "{{ k3s_server_address}}" -t "{{ k3s_cluster_token }}"'
+    replace: 'ExecStart=/usr/local/bin/k3s agent -s "{{ k3s_server_address }}" -t "{{ k3s_cluster_token }}"'
 
 - name: Reload systemd daemon to ensure latest service config
   systemd:
