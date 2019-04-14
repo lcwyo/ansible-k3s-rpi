@@ -1,3 +1,4 @@
 /ansible/hosts
 /ansible/site.retry
 k3s.yaml
+k3s
