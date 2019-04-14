@@ -1,0 +1,11 @@
+---
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+    name: k3s-agent
+
+- name: start k3s
+  service:
+    name: k3s-server
+    enabled: yes
+    state: started
