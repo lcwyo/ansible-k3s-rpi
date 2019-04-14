@@ -30,4 +30,4 @@ GLDRIVER: False #G1 Full KMS, G2 Fake KMS, G3 Legacy
 
 # for some reason these had to be hardcoded for it to work ...
 #k3s_cluster_token: "K10979bb2b5a347fbce951856c4d665e9b4a0bcf10768eba843844265a6df4a6e20::node:7af67bea4ea6e7b5967a8b0a47f8c091"
-#k3s_server_address: "node-110"
+#k3s_node_address: "node-110"

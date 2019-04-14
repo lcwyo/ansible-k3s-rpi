@@ -1,26 +1,38 @@
 ---
-- name: Provision k3s nodes
-  hosts: k3s-server:k3s-agents
+- name: Set up Raspberry pi for k3s
+  hosts: all
   remote_user: pi
   become: yes
   become_user: root
 
   roles:
-    - raspi-config
+#    - raspi-config
     - common
-    - { role: k3s-common }
 
-- name: Provision k3s server node
-  hosts: k3s-server
+
+- name: Provision k3s nodes
+  hosts: server:agents
   remote_user: pi
   become: yes
   become_user: root
+
+  roles:
+    - { role: k3s-common }
+
+- name: Provision k3s server node
+  hosts: server
+  remote_user: pi
+  become: yes
+  become_user: root
+
 
   roles:
     - { role: k3s-server }
 
+
+
 - name: Get k3s server config for all nodes
-  hosts: k3s-server
+  hosts: server
   remote_user: pi
   become: yes
   become_user: root
@@ -28,8 +40,9 @@
   roles:
     - { role: k3s-config }
 
+
 - name: Provision k3s agent nodes
-  hosts: k3s-agents
+  hosts: agents
   remote_user: pi
   become: yes
   become_user: root

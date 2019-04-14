@@ -1,17 +1,24 @@
 ---
 - name: Install k3s server service
   get_url:
-<<<<<<< HEAD
     url: https://raw.githubusercontent.com/rancher/k3s/master/k3s.service
-=======
-    url: https://raw.githubusercontent.com/lcwyo/ansible-k3s-rpi/master/ansible/roles/k3s-server/tasks/k3s.service
->>>>>>> c096e3ecd02142bcdabd99998b2d25ccde988b06
     dest: /etc/systemd/system/k3s-server.service
     mode: a+x
     force: yes
 
-- name: Enable and start the k3s server service
-  service:
-    name: k3s-server
-    enabled: yes
-    state: started
+- name: Start the k3s service
+  debug:
+    msg: "Starting "
+  notify: start k3s
+
+
+# not sure why I can't get the values from the previous task
+- name: Set server address
+  set_fact:
+    k3s_server_address: "https://{{ ansible_facts.eth0.ipv4.address }}:6443"
+  register: k3s_server_address
+  run_once: yes
+
+- name: Print server address ( server )
+  debug:
+    msg: "{{ k3s_server_address }}"

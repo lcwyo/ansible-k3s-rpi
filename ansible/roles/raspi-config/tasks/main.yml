@@ -70,6 +70,7 @@
 #A1 Expand Filesystem
 - name: Expand Filesystem
   shell: "raspi-config nonint do_expand_rootfs"
+  notify: Reboot
 
 - name: Set GPU memory split
   shell: "raspi-config nonint do_memory_split {{ MEMSPLIT }}"
@@ -84,20 +85,3 @@
 -
 - name: Disable pixel doubling
   shell: "raspi-config nonint do_onewire 1"
-
-#REBOOT
-#- name: Reboot
-#  become: True
-#  shell: "sleep 1 && shutdown -r now +1"
-#  async: 1
-#  poll: 0
-#  notify:
-#    - wait-for-reboot
-#  when: REBOOT == True
-
-#HANDLERS
-#handlers:
-#- name: wait-for-reboot
-#  wait_for_connection:
-#    delay: "5"
-#    timeout: "300"
