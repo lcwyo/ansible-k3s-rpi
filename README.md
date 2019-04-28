@@ -5,18 +5,17 @@ This Ansible playbook turns your fleet of Raspberry Pi into Kubernetes cattle wi
 - Create an empty `ssh` file in the root of the SD card (volume is called `boot`)
 
 # Secure your Raspberries
-Optional but advisable: use SSH key auth and disable password login. 
+Optional but advisable: use SSH key auth and disable password login.
 The default ssh credentials for a Raspberry Pi are username `pi` and password `raspberry`.
 - Copy your pubkey to the Pi with `ssh-copy-id pi@kube1.example.com`
-- In `/etc/ssh/sshd_config` on the Pi, set `PasswordAuthentication` to `no`
 
 # Configure ansible setup
 - Copy `ansible/hosts.template` to `ansible/hosts` for your configuration
 - Choose one of the Raspberries to lead / orchestrate your cluster; we'll call this the _server_
 - In `ansible/hosts`, fill out the ip or hostname for the leading Raspberry under `[k3s-server]`
 - Fill out the ip's or hostnames for the rest of your cattle under `[k3s-agents]`
-
-I personally prefer using the Pi's hardware mac address to assign a hostname and ip address within the LAN by DHCP, but you could also set a static ip address on the Pi.
+- change the password in the group_vars
+- pick a version of k3s to install
 
 # Provision the nodes
 When you're all set up and configured, run the Ansible playbook:
@@ -36,11 +35,12 @@ docker run --rm -it \
     -v ~/.ssh/id_rsa:/root/.ssh/id_rsa \
     -v ~/.ssh/id_rsa.pub:/root/.ssh/id_rsa.pub \
     -v $(pwd):/ansible/ \
-    lcwyo/ansiblie-player /ansible/site.yml -i /ansible/hosts
+    lcwyo/ansible-player /ansible/site.yml -i /ansible/hosts
 ```
 
 
 This will:
+- Configure and prepare the Raspberries for k3s
 - Install the k3s binary on the 'server' Pi (the leading node)
 - Install a `k3s-server` service on the server and start it
 - Fetch the node token from the server
