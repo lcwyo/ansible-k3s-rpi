@@ -1,4 +1,5 @@
 ---
+# the service file was changed in the repo.  now using from the template
 # - name: Install k3s agent service
 #   get_url:
 #     url: https://raw.githubusercontent.com/rancher/k3s/master/k3s.service
@@ -6,33 +7,27 @@
 #     mode: a+x
 #     force: yes
 
-- name: Print server address ( agent )
-  debug:
-    # msg: "{% for host in groups['server']['k3s_server_address'] %}
-    #        {{ host }}
-    #     {% endfor %}"
-    msg: "{{ hostvars.keys() }}"
-
-#- name: Replace server command in k3s agent service with agent command
-#  replace:
-#    dest: /etc/systemd/system/k3s-agent.service
-#    regexp: '^ExecStart=/usr/local/bin/k3s server$'
-#    replace: 'ExecStart=/usr/local/bin/k3s agent -s "{{ k3s_server_address }}" -t "{{ k3s_cluster_token }}"'
-#    notify: Reload systemd
+- name: Copy K3s service file
+  register: k3s_service
+  template:
+    src: "k3s.service"
+    dest: "/etc/systemd/system/k3s-agent.service"
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Enable and start the k3s agent service
   debug:
-    msg: " enabling "
+    msg: "enabling "
   notify: start k3s
 
+- name: Reload systemd daemon to ensure latest service config
+  systemd:
+    daemon_reload: yes
+    name: k3s-agent
 
-# - name: Reload systemd daemon to ensure latest service config
-#   systemd:
-#     daemon_reload: yes
-#     name: k3s-agent
-#
-# - name: Enable and start the k3s agent service
-#   service:
-#     name: k3s-agent
-#     enabled: yes
-#     state: started
+- name: Enable and start the k3s agent service
+  service:
+    name: k3s-agent
+    enabled: yes
+    state: started

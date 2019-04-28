@@ -2,7 +2,7 @@
 - name: Reload systemd
   systemd:
     daemon_reload: yes
-    name: k3s-agent
+    name: k3s-server
 
 - name: start k3s
   service:

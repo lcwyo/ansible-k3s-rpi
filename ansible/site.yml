@@ -6,9 +6,8 @@
   become_user: root
 
   roles:
-#    - raspi-config
+    - raspi-config
     - common
-
 
 - name: Provision k3s nodes
   hosts: server:agents
@@ -29,8 +28,6 @@
   roles:
     - { role: k3s-server }
 
-
-
 - name: Get k3s server config for all nodes
   hosts: server
   remote_user: pi
@@ -39,7 +36,6 @@
 
   roles:
     - { role: k3s-config }
-
 
 - name: Provision k3s agent nodes
   hosts: agents

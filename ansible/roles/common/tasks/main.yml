@@ -1,50 +1,50 @@
 ---
-# - name: Ensure US locale exists
-#   locale_gen:
-#     name: en_US.UTF-8
-#     state: present
+- name: Ensure US locale exists
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
 
-#- name: Set hostname to inventory hostname
-#  hostname: name={{ inventory_hostname }}
+- name: Set hostname to inventory hostname
+  hostname: name={{ inventory_hostname }}
 
 - name: Distribution
   debug:
     msg: "{{ ansible_facts.lsb.description }}"
 
-#- name: Update apt cache
-#  shell: apt update
-#
-#- name: Remove useless packages from the cache
-#  shell: apt autoclean
-#
-#- name: Remove dependencies that are no longer required
-#  shell: apt autoremove -y
-#
-#- name: Password based logins are disabled - only public key based logins are allowed.
-#  lineinfile:
-#    dest: /etc/ssh/sshd_config
-#    regexp: "{{ item.regexp }}"
-#    line: "{{ item.line }}"
-#  with_items:
-#    - { regexp: '^#?AuthenticationMethods' , line: 'AuthenticationMethods publickey' }
-#    - { regexp: '^#?PasswordAuthentication' , line: 'PasswordAuthentication no' }
-#    - { regexp: '^#?ChallengeResponseAuthentication',  line: 'ChallengeResponseAuthentication no' }
-#    - { regexp: '^#?PubkeyAuthentication',  line: 'PubkeyAuthentication yes' }
-#
-# - name: Set GPU memory split to 16 MB
-#   lineinfile:
-#     dest: /boot/config.txt
-#     line: 'gpu_mem=16'
-#     create: yes
-#
-# - name: Add cgroup directives to boot commandline config
-#   lineinfile:
-#     dest: /boot/cmdline.txt
-#     regexp: '((.)+?)(\scgroup_\w+=\w+)*$'
-#     line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
-#     backrefs: yes
-#
-# - name: Point hostname to localhost (k3s requirement)
-#   lineinfile:
-#     dest: /etc/hosts
-#     line: "127.0.0.1 {{ inventory_hostname }}"
+- name: Update apt cache
+  shell: apt update
+
+- name: Remove useless packages from the cache
+  shell: apt autoclean
+
+- name: Remove dependencies that are no longer required
+  shell: apt autoremove -y
+
+- name: Password based logins are disabled - only public key based logins are allowed.
+  lineinfile:
+   dest: /etc/ssh/sshd_config
+   regexp: "{{ item.regexp }}"
+   line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^#?AuthenticationMethods' , line: 'AuthenticationMethods publickey' }
+    - { regexp: '^#?PasswordAuthentication' , line: 'PasswordAuthentication no' }
+    - { regexp: '^#?ChallengeResponseAuthentication',  line: 'ChallengeResponseAuthentication no' }
+    - { regexp: '^#?PubkeyAuthentication',  line: 'PubkeyAuthentication yes' }
+
+- name: Set GPU memory split to 16 MB
+  lineinfile:
+    dest: /boot/config.txt
+    line: 'gpu_mem=16'
+    create: yes
+
+- name: Add cgroup directives to boot commandline config
+  lineinfile:
+    dest: /boot/cmdline.txt
+    regexp: '((.)+?)(\scgroup_\w+=\w+)*$'
+    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
+    backrefs: yes
+
+- name: Point hostname to localhost (k3s requirement)
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ inventory_hostname }}"
