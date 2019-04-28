@@ -5,7 +5,7 @@ metadata:
   name: nginx-unprivileged-test
   namespace: default
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: nginx-unprivileged-test
   ports:

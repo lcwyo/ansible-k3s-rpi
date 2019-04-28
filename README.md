@@ -55,3 +55,39 @@ $ sudo k3s kubectl get nodes -o wide
 You should see all of your nodes broadcasting a _Ready_ status.
 
 Happy cattle herding!
+
+#todo
+
+need to find some storage class...
+
+
+#### Install Helm
+
+Download helm
+
+`curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > install-helm.sh`
+
+Make instalation script executable
+
+`chmod u+x install-helm.sh`
+
+Install helm
+`./install-helm.sh
+`
+
+Prepare & Install tiller
+
+```
+kubectl -n kube-system create serviceaccount tiller
+
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+```
+
+tiller needs an arm image, so we use the arm immage from jessestuart
+
+`helm init --tiller-image=jessestuart/tiller:v2.9.0 --service-account tiller --upgrade `
+
+use arm helm charts
+
+`helm repo add arm-stable https://peterhuene.github.io/arm-charts/stable`
