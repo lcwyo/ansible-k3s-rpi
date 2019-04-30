@@ -47,7 +47,7 @@ This will:
 - Install and start a `k3s-agent` service on the agents, joining the cluster
 - Enable autostart on boot for k3s on all nodes
 
-# See if it worked
+## See if it worked
 Log into your server node and run:
 ```bash
 $ sudo k3s kubectl get nodes -o wide
@@ -56,7 +56,7 @@ You should see all of your nodes broadcasting a _Ready_ status.
 
 Happy cattle herding!
 
-#todo
+#todo#
 
 need to find some storage class...
 
@@ -84,7 +84,7 @@ kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceac
 
 ```
 
-tiller needs an arm image, so we use the arm immage from jessestuart
+tiller needs an arm image, so we use the arm image from jessestuart
 
 `helm init --tiller-image=jessestuart/tiller:v2.9.0 --service-account tiller --upgrade `
 
