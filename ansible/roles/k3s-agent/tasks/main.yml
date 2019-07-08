@@ -23,11 +23,8 @@
 
 - name: Reload systemd daemon to ensure latest service config
   systemd:
+    name: k3s-agent
     daemon_reload: yes
-    name: k3s-agent
-
-- name: Enable and start the k3s agent service
-  service:
-    name: k3s-agent
+    state: restarted
     enabled: yes
-    state: started
+
